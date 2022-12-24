@@ -1,0 +1,14 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "BookStore APIs exposed from a Java EE back",
+    "version" : "1.0.0",
+    "title" : "BookStore API"
+  },
+  "host" : "localhost:16162",
+  "basePath" : "/building-rest-api-1.0-SNAPSHOT/api",
+  "tags" : [ {
+    "name" : "Book"
+  } ],
+  "schemes" : [ "http", "https" ]
+}

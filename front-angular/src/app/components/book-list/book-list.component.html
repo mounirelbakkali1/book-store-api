@@ -1,0 +1,16 @@
+<div class="container mt-5">
+  <div class="row g-3">
+    <ul class="list-group">
+      <li *ngFor="let book of books" class="list-group-item mb-2">
+          <div class="d-flex">
+            <img src="{{book.imageURL}}" alt="" class="w-25">
+          <div class="p-3">
+            <h5>{{book.title}}</h5>
+          <p>{{book.description}}</p>
+          <b>{{book.author_id.firstName+" "+book.author_id.firstName}} </b>
+          </div>
+        </div>
+        </li>
+    </ul>
+  </div>
+</div>

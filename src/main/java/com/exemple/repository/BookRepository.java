@@ -19,7 +19,7 @@ import static jakarta.transaction.Transactional.TxType.SUPPORTS;
 
 
 @Transactional(SUPPORTS)
-public class BookRepository {
+public class BookRepository implements Repository<Book> {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Book-Store-Persistence-Unit");
     EntityManager em = emf.createEntityManager();
 
@@ -30,32 +30,33 @@ public class BookRepository {
     @Inject
     TextUtils utils;
 
-    public Book find(@Min(value = 1,message = "ID of book to retreieve shouldn't be less than 1") @NotNull Long id){
+    @Override
+    public Book find(Long id){
         return em.find(Book.class,id);
     }
+    @Override
+
     public List<Book> findAll(){
         return em.createQuery("select b from Book b order by b.id").getResultList();
     }
 
 
+    @Override
     public Long countAll(){
         return (Long) em.createQuery("SELECT COUNT(b) from Book b").getSingleResult();
     }
 
 
-
-
-
-    @Transactional(REQUIRED)
-    public Book save(@NotNull(message = "the instance of the object to persist should't be null") Book book){
+    @Override
+    public Book save(Book book){
         book.setIsbn(generator.generateISBN());
         book.setDescription(utils.sanitize(book.getDescription()));
         em.persist(book);
         return book;
     }
 
-    @Transactional(REQUIRED)
-    public void delete(@NotNull(message = "the id of the book to be deleted could't be null") Long id){
+    @Override
+    public void delete(Long id){
         em.remove(em.getReference(Book.class,id));
     }
 }

@@ -2,6 +2,7 @@ package com.exemple.rest;
 
 import com.exemple.model.Book;
 import com.exemple.services.BookService;
+import com.exemple.utils.beans.interceptors.Loggeble;
 import io.swagger.annotations.*;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.Min;
@@ -24,6 +25,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
                 description = "API for my application"
         )
 )
+@Loggeble
 public class BookResource {
 
     @Inject
@@ -38,15 +40,15 @@ public class BookResource {
     })*/
     public Response getBooks(){
         List<Book> bookList = service.findAll();
-        if(bookList.size()==0) return Response.noContent().build();
-        return Response.ok(service.findAll()).build();
+        //if(bookList.size()==0) return Response.noContent().build();
+        return Response.ok(bookList).build();
     }
 
     @GET
     @Path("/count")
     public Response countAllBooks(){
         long count =service.countAll();
-        if (count==0) return Response.noContent().build();
+        //if (count==0) return Response.noContent().build();
         return Response.ok(service.countAll()).build();
     }
 
@@ -78,8 +80,10 @@ public class BookResource {
     @Consumes(APPLICATION_JSON)
     public Response createBook(Book book, @Context UriInfo uriInfo){
         book = service.save(book);
-        URI createdURI = uriInfo.getBaseUriBuilder().path(book.getId().toString()).build();
-        return Response.created(createdURI).build();
+        //System.out.println(book);
+        //URI createdURI = uriInfo.getBaseUriBuilder().path(book.getId().toString()).build();
+        //return Response.created(createdURI).build();
+        return Response.status(Response.Status.CREATED).build();
     }
 
 

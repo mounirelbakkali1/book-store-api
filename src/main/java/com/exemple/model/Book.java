@@ -9,9 +9,11 @@ import lombok.Setter;
 
 import java.util.Date;
 
+import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.TemporalType.DATE;
+
 
 @Entity
 @Table(name = "books")
@@ -40,4 +42,22 @@ public class Book {
     @Enumerated(STRING)
     private Language language;
 
+    @ManyToOne(cascade = PERSIST,targetEntity = Author.class)
+    @JoinColumn(name = "author_id")
+    private Author author_id;
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", unitCost=" + unitCost +
+                ", isbn='" + isbn + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", numberOfPages=" + numberOfPages +
+                ", imageURL='" + imageURL + '\'' +
+                ", language=" + language +
+                '}';
+    }
 }

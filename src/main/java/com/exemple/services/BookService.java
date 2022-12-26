@@ -4,11 +4,15 @@ import com.exemple.model.Book;
 import com.exemple.repository.BookRepository;
 import com.exemple.utils.beans.interceptors.Loggeble;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
-@Loggeble
+import static jakarta.transaction.Transactional.TxType.REQUIRED;
+import static jakarta.transaction.Transactional.TxType.SUPPORTS;
 
+
+@Transactional(SUPPORTS)
 public class BookService {
 
 
@@ -42,12 +46,13 @@ public class BookService {
         return repository.countAll();
     }
 
+    @Transactional(REQUIRED)
 
     public Book save(Book book){
-        repository.save(book);
+        book =repository.save(book);
         return book;
     }
-
+    @Transactional(REQUIRED)
     public void delete(Long id){
         repository.delete(id);
     }
